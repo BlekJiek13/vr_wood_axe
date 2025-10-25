@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro; // Для TextMeshPro
+using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class AxeCollisionHandler : MonoBehaviour
@@ -153,3 +153,4 @@ public class AxeCollisionHandler : MonoBehaviour
         }
     }
 }
+
