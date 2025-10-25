@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class WoodPileSpawner : MonoBehaviour
 {
 public GameObject logPrefab; // Префаб бревна
-    public Transform handPoint; // Точка спавна (например, RightHand Controller)
+    public Transform handPoint; // Точка спавна
     private XRSimpleInteractable interactable;
     private GameObject heldLog; // Текущее бревно в руке
 
