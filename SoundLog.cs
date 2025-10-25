@@ -2,16 +2,12 @@ using UnityEngine;
 
 public class SoundLog : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-
 
     public AudioClip destroyClip;
     private Collider bladeCollider;
 
     private void Start()
     {
-        // Находим коллайдер топора по тегу
         GameObject blade = GameObject.FindGameObjectWithTag("AxeBlade");
         if (blade != null)
         {
@@ -33,7 +29,7 @@ public class SoundLog : MonoBehaviour
                 AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
 
                 audioSource.clip = destroyClip;
-                audioSource.spatialBlend = 1f; // 3D-звук
+                audioSource.spatialBlend = 1f;
                 audioSource.volume = 1f;
                 audioSource.transform.position = transform.position;
 
