@@ -12,7 +12,7 @@ public class AxeCollisionHandler : MonoBehaviour
     public GameObject splitLogPrefab; // Префаб расколотого полена
     public Transform axeBlade; // Трансформ лезвия топора
     public InputActionReference pullAxeAction; // Действие для выдергивания топора (Trigger)
-    public TMP_Text debugText; // Ссылка на TMP Text для отображения дебаг-сообщений
+    public TMP_Text debugText; 
 
     public AxeCounter axeCounter;
     private Rigidbody axeRb;
@@ -33,7 +33,6 @@ public class AxeCollisionHandler : MonoBehaviour
 
     void Update()
     {
-        // Обновляем текст в реальном времени (можно убрать, если не нужно постоянно)
         // if (debugText != null)
         // {
         //     debugText.text = "Is Stuck: " + isStuck + "\nSpeed: " + (axeRb != null ? axeRb.linearVelocity.magnitude.ToString("F2") : "N/A") + " m/s";
@@ -65,9 +64,6 @@ public class AxeCollisionHandler : MonoBehaviour
                     return;
                 }
 
-                // Симулируем перпендикулярный удар: корректируем поворот топора
-                //transform.rotation = Quaternion.LookRotation(-collision.contacts[0].normal, Vector3.up);
-
                 if (impactSpeed >= thresholdForce)
                 {
 
@@ -93,32 +89,26 @@ public class AxeCollisionHandler : MonoBehaviour
 
 
 
-                    // --- 1. Рассчитываем глубину врезания ---
+                        //Рассчитываем глубину врезания
                         float depth = Mathf.Lerp(0.05f, maxDepth, (impactSpeed - minImpactSpeed) / (thresholdForce - minImpactSpeed));
                         depth = Mathf.Clamp(depth, 0.02f, maxDepth); // ограничиваем диапазон
 
-                        // --- 2. Берём точку контакта и нормаль поверхности ---
+                        //Берём точку контакта и нормаль поверхности
                         ContactPoint contact = collision.contacts[0];
                         Vector3 hitPoint = contact.point;
                         Vector3 hitNormal = contact.normal;
 
-                        // --- 4. Смещаем топор немного внутрь полена (вдоль лезвия) ---
+                        //Смещаем топор немного внутрь полена (вдоль лезвия)
                         Vector3 embedPosition = hitPoint - axeBlade.forward * depth;
 
-                        // --- 5. Замораживаем Rigidbody и выставляем новую позицию/поворот ---
-                        //axeRb.isKinematic = true;
-                        // axeRb.linearVelocity = Vector3.zero;
-                        // axeRb.angularVelocity = Vector3.zero;
                         axeRb.MovePosition(embedPosition);
-                        //axeRb.MoveRotation(targetRotation);
 
-                        // --- 6. Создаём Joint, чтобы топор "держался" в дереве ---
+                        //Создаём Joint, чтобы топор "держался" в дереве
                         fixedJoint = axeRb.gameObject.AddComponent<FixedJoint>();
                         fixedJoint.connectedBody = collision.rigidbody;
                         fixedJoint.breakForce = Mathf.Infinity;
                         fixedJoint.breakTorque = Mathf.Infinity;
 
-                        // --- 7. Флаг ---
                         isStuck = true;
                     
 
